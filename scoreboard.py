@@ -24,7 +24,7 @@ class Scoreboard(Turtle):
         self.goto(-240, 260)
         self.write("Level: {}".format(self.level), align=ALIGNMENT, font=FONT1)
         self.goto(200, 260)
-        self.write("Lives: ", align=ALIGNMENT, font=FONT1)
+        self.write("Lives: {}".format(self.lives), align=ALIGNMENT, font=FONT1)
         self.goto(self.xcor()+10,self.ycor())       
         for _ in range(self.lives-1):
             stamp = self.stamp()
@@ -35,14 +35,17 @@ class Scoreboard(Turtle):
         self.level += 1
         self.clear()
         self.updateScoreboard()
-
+    
     def die(self):
         self.lives -= 1
         if self.lives == 0:
             self.game_is_on = False
             self.gameOver()
         else:
+            self.clear()
+            self.clearstamps()
             self.updateScoreboard()
+            self.stamps = [] 
 
     def gameOver(self):
         self.goto(0,0)
