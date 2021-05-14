@@ -15,7 +15,7 @@ screen_height = 600
 
 screen = Screen()
 screen.setup(width=screen_width, height=screen_height)
-screen.title("Frogger, but a turtle... Turtler")
+screen.title("Frogger, but a turtle... Turtler ..")
 
 frogger = Frogger()
 car_manager = CarManager()
@@ -44,6 +44,7 @@ while scoreboard.game_is_on:
             scoreboard.die()
             frogger.spawn()
     
-    # Detect car moving off screen
+    # manage out of bound cars
+    car_manager.manageOOBCars()
 
 screen.exitonclick()

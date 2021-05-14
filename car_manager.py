@@ -16,6 +16,8 @@ class CarManager:
 
     def __init__(self):
         self.cars = []
+        self.speed = STARTING_MOVE_DISTANCE 
+        self.minusCars = 0
         self.startingCars()
         self.move()
 
@@ -28,7 +30,7 @@ class CarManager:
         if start:
             x = random.randint(-300,300)
         else:
-            x = random.randchoice([-300,300])
+            x = random.choice([-300,300])
         position = (x, random.randint(-260, 260))
         if x < -150:
             heading = RIGHT
@@ -39,24 +41,30 @@ class CarManager:
 
     def move(self):
         for car in self.cars:
-            car.move(STARTING_MOVE_DISTANCE)
+            car.move(self.speed)
+    
+    def increaseSpeed(self):
+        self.speed += MOVE_INCREMENT
 
-    def manageCars(self):
-        minusCars = ilen(filter(lambda x: x.xcor() >= 300, self.cars))
-        goneCars = [car for car in self.cars if abs(car.xcor()) < 300]
-        self.cars = [car for car in self.cars if abs(car.xcor()) < 300]
-        for car in goneCars:
-            car.reset()
-        for _ in STARTING_CARS-minusCars:
-            self.createCar()
+    def deleteCar(self,car):
+        car.hideturtle()
+        car.clear()
+        del car
+        
+    def manageOOBCars(self, reset=False):
+        for i,car in enumerate(self.cars):
+            if reset:
+                self.deleteCar(car)
+            elif (self.cars[i].xcor() > 310 and  self.cars[i].heading() == 0) or (self.cars[i].xcor() < -310 and self.cars[i].heading() == 180):
+                self.deleteCar(car)
+                del self.cars[i]
+                self.createCar()
 
     def resetCars(self):
-        for car in self.cars:
-            car.hideturtle()
-            car.clear()
-            del car
+        self.manageOOBCars(True)
         self.cars = []
+        self.increaseSpeed()
         self.startingCars()
-
+    
 if __name__ == '__main__':
     car_manager = CarManager()
