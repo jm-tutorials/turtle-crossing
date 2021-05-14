@@ -40,7 +40,7 @@ while scoreboard.game_is_on:
 
     # Detect collision with car
     for car in car_manager.cars:
-        if frogger.distance(car) < 10: #or car.xCollision(frogger):
+        if frogger.distance(car) < 20:
             scoreboard.die()
             frogger.spawn()
     
